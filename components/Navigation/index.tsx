@@ -11,7 +11,6 @@ interface NavigationProps {
 }
 
 const Navigation = ({
-    links
 }: NavigationProps) => {
     return (
         <nav className={styles.nav}>

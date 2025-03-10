@@ -6,7 +6,7 @@ import {  TypeExperiences } from '../../../types/contentf/TypeExperiences';
 
 const Experience = () => {
     const [experiences, setExperiences] = useState<TypeExperiences []>([]);
-    const [filter, setFilter] = useState<string>('')
+    const [filter] = useState<string>('')
     const [isPending, startTransition] = useTransition();
     
     const client = createClient({
@@ -24,14 +24,18 @@ const Experience = () => {
     
                 if(filter) {
                     items = entries.items.filter(entry => {
-                        return entry.fields.skills.toLowerCase().includes(filter.toLowerCase())
+                        const skill = entry?.fields?.skills;
+                        return skill?.toLocaleString().includes(filter.toLowerCase())
                     })
     
                 } else { 
                     items = entries.items
                 }
     
-                setExperiences(items)
+                setExperiences(items.map(item => ({
+                    contentTypeId: item.sys.contentType.sys.id,
+                    fields: item.fields
+                })))
             });
         };
 
